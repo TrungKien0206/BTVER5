@@ -1,16 +1,25 @@
 package btver5;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-abstract class Person implements IPerson {
+public abstract class Person implements IPerson {
 
-    protected String id;
-    protected String fullName;
-    protected Date dateOfBirth;
-    protected Date bookBorrowDate;
-    protected Date bookReturnDate;
+    private String id;
+    private String fullName;
+    private Date dateOfBirth;
+    private Date bookBorrowDate;
+    private Date bookReturnDate;
 
+    // Constructor
+    public Person(String id, String fullName, Date dateOfBirth, Date bookBorrowDate, Date bookReturnDate) {
+        this.id = id;
+        this.fullName = fullName;
+        this.dateOfBirth = dateOfBirth;
+        this.bookBorrowDate = bookBorrowDate;
+        this.bookReturnDate = bookReturnDate;
+    }
+
+    // Getters and Setters
     public String getId() {
         return id;
     }
@@ -51,34 +60,20 @@ abstract class Person implements IPerson {
         this.bookReturnDate = bookReturnDate;
     }
 
-    public SimpleDateFormat getDateFormat() {
-        return dateFormat;
+    // Check if book is overdue
+    public boolean isBookOverdue() {
+        long differenceInMillies = bookReturnDate.getTime() - bookBorrowDate.getTime();
+        long differenceInDays = differenceInMillies / (1000 * 60 * 60 * 24);
+        return differenceInDays >= 30;
     }
 
-    public void setDateFormat(SimpleDateFormat dateFormat) {
-        this.dateFormat = dateFormat;
-    }
-
+    // Abstract methods to be implemented by subclasses
     @Override
-    public abstract void displayInfo();
+    public abstract void addPerson();
 
     @Override
     public abstract void updatePerson(String id);
 
     @Override
-    public abstract void addPerson();
-
-    
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-    public boolean isBookOverdue() {
-        Date today = new Date();
-        if (bookReturnDate != null && bookReturnDate.before(today)) {
-            System.out.println("Overdue");
-            return true;
-        } else {
-            System.out.println("No overdue");
-            return false;
-        }
-    }
+    public abstract void displayInfo();
 }

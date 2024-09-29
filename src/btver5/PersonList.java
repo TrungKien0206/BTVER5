@@ -1,44 +1,53 @@
 package btver5;
 
 import java.util.ArrayList;
+import java.util.Date;
 
-class PersonList {
+public class PersonList {
+    private ArrayList<Person> personList;
 
-    private ArrayList<Person> personList = new ArrayList<>();
+    // Constructor
+    public PersonList() {
+        personList = new ArrayList<>();
+    }
 
-    public void addStudent() {
-        Student student = new Student();
-        student.addPerson();
+    // Method to add a new student
+    public void addStudent(String id, String fullName, Date dateOfBirth, Date bookBorrowDate, Date bookReturnDate, float gpa, String major) {
+        Student student = new Student(id, fullName, dateOfBirth, bookBorrowDate, bookReturnDate, gpa, major);
         personList.add(student);
+        System.out.println("Student added successfully.");
     }
 
-    public void addTeacher() {
-        Teacher teacher = new Teacher();
-        teacher.addPerson();
+    // Method to add a new teacher
+    public void addTeacher(String id, String fullName, Date dateOfBirth, Date bookBorrowDate, Date bookReturnDate, String department, String teachingSubject) {
+        Teacher teacher = new Teacher(id, fullName, dateOfBirth, bookBorrowDate, bookReturnDate, department, teachingSubject);
         personList.add(teacher);
+        System.out.println("Teacher added successfully.");
     }
 
-    public void updatePerson(String id) {
+    // Method to update a person by ID
+    public void updatePersonById(String id) {
         for (Person person : personList) {
-            if (person.id.equals(id)) {
-                person.updatePerson(id);
-                break;
-            }
+            person.updatePerson(id);
         }
     }
 
+    // Method to delete a person by ID
     public void deletePersonById(String id) {
-        personList.removeIf(person -> person.id.equals(id));
+        personList.removeIf(person -> person.getId().equals(id));
+        System.out.println("Person deleted successfully if found.");
     }
 
+    // Method to display all students and teachers
     public void displayEveryone() {
         for (Person person : personList) {
             person.displayInfo();
-            System.out.println("-------------------------------");
+            System.out.println();
         }
     }
 
-    public void findTopStudent() {
+    // Method to find the student with the highest GPA
+    public Student findTopStudent() {
         Student topStudent = null;
         for (Person person : personList) {
             if (person instanceof Student) {
@@ -48,27 +57,35 @@ class PersonList {
                 }
             }
         }
-        if (topStudent != null) {
-            System.out.println("Top student:");
-            topStudent.displayInfo();
-        }
+        return topStudent;
     }
 
-    public void findTeacherByDepartment(String department) {
+    // Method to find teachers by department
+    public void findTeachersByDepartment(String department) {
+        System.out.println("Teachers in the " + department + " department:");
         for (Person person : personList) {
             if (person instanceof Teacher) {
                 Teacher teacher = (Teacher) person;
                 if (teacher.getDepartment().equalsIgnoreCase(department)) {
                     teacher.displayInfo();
+                    System.out.println();
                 }
             }
         }
     }
 
-    public void checkBookBorrowing() {
+    // Method to check if the book is overdue
+    public void checkBookBorrowing(String id) {
         for (Person person : personList) {
-            System.out.println(person.fullName + "'s Book Status:");
-            person.isBookOverdue();
+            if (person.getId().equals(id)) {
+                if (person.isBookOverdue()) {
+                    System.out.println("Overdue");
+                } else {
+                    System.out.println("No overdue");
+                }
+                return;
+            }
         }
+        System.out.println("Person ID not found.");
     }
 }

@@ -1,51 +1,91 @@
 package btver5;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
-class Teacher extends Person {
-
+public class Teacher extends Person {
     private String department;
     private String teachingSubject;
 
+    // Constructor
+    public Teacher(String id, String fullName, Date dateOfBirth, Date bookBorrowDate, Date bookReturnDate, String department, String teachingSubject) {
+        super(id, fullName, dateOfBirth, bookBorrowDate, bookReturnDate);
+        this.department = department;
+        this.teachingSubject = teachingSubject;
+    }
+
+    // Getters and Setters
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getTeachingSubject() {
+        return teachingSubject;
+    }
+
+    public void setTeachingSubject(String teachingSubject) {
+        this.teachingSubject = teachingSubject;
+    }
+
+    // Implement abstract methods
     @Override
     public void addPerson() {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter Teacher ID: ");
-        this.id = sc.nextLine();
-        System.out.print("Enter Full Name: ");
-        this.fullName = sc.nextLine();
-        System.out.print("Enter Department: ");
-        this.department = sc.nextLine();
-        System.out.print("Enter Teaching Subject: ");
-        this.teachingSubject = sc.nextLine();
-        System.out.print("Enter Date of Birth (dd/MM/yyyy): ");
-        try {
-            this.dateOfBirth = dateFormat.parse(sc.nextLine());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        System.out.println("Adding new teacher: " + getFullName());
     }
 
     @Override
     public void updatePerson(String id) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Update Full Name: ");
-        this.fullName = sc.nextLine();
-        System.out.print("Update Department: ");
-        this.department = sc.nextLine();
-        System.out.print("Update Teaching Subject: ");
-        this.teachingSubject = sc.nextLine();
+        if (this.getId().equals(id)) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Updating teacher: " + getFullName());
+
+            // Updating full name
+            System.out.print("Enter new full name: ");
+            String newFullName = scanner.nextLine();
+            this.setFullName(newFullName);
+
+            // Updating date of birth
+            System.out.print("Enter new date of birth (dd/MM/yyyy): ");
+            String dobStr = scanner.nextLine();
+            try {
+                Date newDateOfBirth = new SimpleDateFormat("dd/MM/yyyy").parse(dobStr);
+                this.setDateOfBirth(newDateOfBirth);
+            } catch (ParseException e) {
+                System.out.println("Invalid date format.");
+            }
+
+            // Updating Department
+            System.out.print("Enter new Department: ");
+            String newDepartment = scanner.nextLine();
+            this.setDepartment(newDepartment);
+
+            // Updating Teaching Subject
+            System.out.print("Enter new Teaching Subject: ");
+            String newTeachingSubject = scanner.nextLine();
+            this.setTeachingSubject(newTeachingSubject);
+
+            System.out.println("Teacher updated successfully.");
+        } else {
+            System.out.println("Teacher ID not found.");
+        }
     }
 
     @Override
     public void displayInfo() {
-        System.out.println("ID: " + this.id);
-        System.out.println("Full Name: " + this.fullName);
-        System.out.println("Department: " + this.department);
-        System.out.println("Teaching Subject: " + this.teachingSubject);
-    }
-
-    public String getDepartment() {
-        return department;
+        System.out.println("Teacher Info:");
+        System.out.println("ID: " + getId());
+        System.out.println("Full Name: " + getFullName());
+        System.out.println("Date of Birth: " + getDateOfBirth());
+        System.out.println("Department: " + department);
+        System.out.println("Teaching Subject: " + teachingSubject);
+        System.out.println("Book Borrow Date: " + getBookBorrowDate());
+        System.out.println("Book Return Date: " + getBookReturnDate());
+        System.out.println("Book Overdue: " + (isBookOverdue() ? "Yes" : "No"));
     }
 }
