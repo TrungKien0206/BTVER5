@@ -76,16 +76,17 @@ public class Teacher extends Person {
         }
     }
 
-    @Override
+   @Override
     public void displayInfo() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         System.out.println("Teacher Info:");
         System.out.println("ID: " + getId());
         System.out.println("Full Name: " + getFullName());
-        System.out.println("Date of Birth: " + getDateOfBirth());
+        System.out.println("Date of Birth: " + dateFormat.format(getDateOfBirth()));
         System.out.println("Department: " + department);
         System.out.println("Teaching Subject: " + teachingSubject);
-        System.out.println("Book Borrow Date: " + getBookBorrowDate());
-        System.out.println("Book Return Date: " + getBookReturnDate());
+        System.out.println("Book Borrow Date: " + dateFormat.format(getBookBorrowDate()));
+        System.out.println("Book Return Date: " + dateFormat.format(getBookReturnDate()));
         System.out.println("Book Overdue: " + (isBookOverdue() ? "Yes" : "No"));
     }
 }
