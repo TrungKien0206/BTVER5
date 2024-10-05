@@ -77,16 +77,17 @@ public class Student extends Person {
         }
     }
 
-    @Override
-    public void displayInfo() {
-        System.out.println("Student Info:");
-        System.out.println("ID: " + getId());
-        System.out.println("Full Name: " + getFullName());
-        System.out.println("Date of Birth: " + getDateOfBirth());
-        System.out.println("GPA: " + gpa);
-        System.out.println("Major: " + major);
-        System.out.println("Book Borrow Date: " + getBookBorrowDate());
-        System.out.println("Book Return Date: " + getBookReturnDate());
-        System.out.println("Book Overdue: " + (isBookOverdue() ? "Yes" : "No"));
-    }
+   @Override
+public void displayInfo() {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    System.out.println("Student Info:");
+    System.out.println("ID: " + getId());
+    System.out.println("Full Name: " + getFullName());
+    System.out.println("Date of Birth: " + dateFormat.format(getDateOfBirth()));
+    System.out.println("GPA: " + gpa);
+    System.out.println("Major: " + major);
+    System.out.println("Book Borrow Date: " + dateFormat.format(getBookBorrowDate()));
+    System.out.println("Book Return Date: " + dateFormat.format(getBookReturnDate()));
+    System.out.println("Book Overdue: " + (isBookOverdue() ? "Yes" : "No"));
+}
 }
